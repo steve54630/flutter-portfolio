@@ -1,0 +1,26 @@
+[
+  {
+    "id": "exp-alt",
+    "role": "Développeur FullStack",
+    "company": "Incubateur Tech Alt",
+    "period": "2025",
+    "description": "Conception complète d'API REST et sécurisation via JWT sous NestJS.",
+    "skillIds": ["nestjs", "react", "spring"]
+  },
+  {
+    "id": "exp-freelance",
+    "role": "Développeur Mobile",
+    "company": "Freelance",
+    "period": "Depuis 2024",
+    "description": "Développement d'une application Android/iOS native en Kotlin pour aider les femmes ayant des pathologies particulières.",
+    "skillIds": ["kotlin", "laravel"]
+  },
+  {
+    "id": "exp-sogetrel",
+    "role": "Développeur FullStack",
+    "company": "Sogetrel",
+    "period": "2023",
+    "description": "Optimisation de requêtes SQL Server et refactorisation complète d'un site de gestion de stock.",
+    "skillIds": ["sql-server"]
+  }
+]

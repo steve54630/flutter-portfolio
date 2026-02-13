@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "name": "Steve Retournay",
+    "photo": "assets/images/profile.jpg",
+    "location": "Nancy, France",
+    "availability": "Mobile (France entière), priorité Lorraine, ouvert au Remote"
+  },
+  "contact": {
+    "phone": "06 81 30 29 76",
+    "email": "retournay.steve@yahoo.com",
+    "linkedin": "https://www.linkedin.com/in/steve-retournay",
+    "portfolio": "https://portfolio-persona-steve54630.vercel.app/"
+  },
+  "bio": {
+    "title": "Profil",
+    "content": "Ancien enseignant reconverti, j’ai trouvé ma voie dans le développement grâce à ma curiosité, mon sens logique et ma capacité à apprendre vite. Je conçois des architectures solides côté serveur, tout en gardant une attention portée aux interactions front. Réactif, rigoureux et autonome, je m’épanouis dans des environnements dynamiques où je peux apprendre, structurer et faire avancer les projets."
+  },
+  "softSkills": [
+    "Relationnel client",
+    "Adaptabilité",
+    "Gestion du stress",
+    "Projets complexes",
+    "Pédagogie",
+    "Sens de l'analyse"
+  ],
+  "interests": [
+    "Jeux vidéo",
+    "Jeux de société",
+    "Cinéma",
+    "Jeux de cartes à collectionner"
+  ]
+}
