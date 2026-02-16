@@ -7,6 +7,7 @@ class Project {
   final List<String> skillIds;
   final List<String> strengths;
   final String link;
+  final String? demo;
 
   Project({
     required this.id,
@@ -17,6 +18,7 @@ class Project {
     required this.skillIds,
     required this.strengths,
     required this.link,
+    this.demo,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class Project {
       skillIds: List<String>.from(json['skillIds']),
       strengths: List<String>.from(json['strengths']),
       link: json['link'],
+      demo: json['demo'] as String?,
     );
   }
 }

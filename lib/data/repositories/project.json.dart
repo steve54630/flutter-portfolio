@@ -8,6 +8,9 @@ import 'package:portfolio_steve/domain/repositories/project.repository.dart';
 
 class JsonProjectRepository implements IProjectRepository {
   static const String assetPath = 'data/projects.json';
+  final AssetBundle bundle;
+
+  JsonProjectRepository({AssetBundle? bundle}) : bundle = bundle ?? rootBundle;
 
   @override
   Future<Project> getProjectById(String id) async {
@@ -21,7 +24,7 @@ class JsonProjectRepository implements IProjectRepository {
   @override
   Future<List<Project>> getProjects() async {
     try {
-      final String response = await rootBundle.loadString(assetPath);
+      final String response = await bundle.loadString(assetPath);
       final List<dynamic> data = json.decode(response);
 
       return data.map<Project>((json) => Project.fromJson(json)).toList();

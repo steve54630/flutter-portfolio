@@ -1,105 +1,114 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio_steve/data/repositories/experience.json.dart';
-import 'package:portfolio_steve/domain/models/experience.model.dart';
 import 'package:portfolio_steve/domain/exceptions/datasource.exception.dart';
 import 'package:portfolio_steve/domain/exceptions/notfound.exception.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('JsonExperienceRepository Tests', () {
+  group('JsonExperienceRepository Coverage Boost', () {
     late JsonExperienceRepository repository;
-    String? mockContent;
-
-    final defaultData = [
-      {
-        "id": "exp1",
-        "company": "Tech Corp",
-        "role": "Developer",
-        "description": "Flutter dev",
-        "period": "2023-2024",
-        "skillIds": ["s1"],
-      },
-      {
-        "id": "exp2",
-        "company": "Design Studio",
-        "role": "UI Designer",
-        "description": "Figma",
-        "period": "2022",
-        "skillIds": [],
-      },
-    ];
+    const String experiencePath = 'data/experiences.json';
 
     setUp(() {
       repository = JsonExperienceRepository();
-      mockContent = null;
-
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMessageHandler('flutter/assets', (ByteData? message) async {
-            final String content = mockContent ?? json.encode(defaultData);
-            return Uint8List.fromList(utf8.encode(content)).buffer.asByteData();
-          });
     });
 
-    test(
-      'getExperiences doit retourner une liste d\'objets Experience',
-      () async {
-        final result = await repository.getExperiences();
-        expect(result, isA<List<Experience>>());
-        expect(result.length, 2);
-        expect(result.first.company, "Tech Corp");
-      },
-    );
+    // Helper pour mocker le binaire messenger
+    void mockRawAsset(String? content) {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMessageHandler('flutter/assets', (ByteData? message) async {
+            if (content == null)
+              return null; // Simule un asset inexistant ou inaccessible
+            return Uint8List.fromList(utf8.encode(content)).buffer.asByteData();
+          });
+    }
 
-    test(
-      'getExperienceById doit retourner la bonne expérience si l\'ID existe',
-      () async {
-        final result = await repository.getExperienceById("exp2");
-        expect(result.id, "exp2");
-        expect(result.company, "Design Studio");
-      },
-    );
+    void mockJsonAsset(dynamic data) => mockRawAsset(json.encode(data));
 
+    // Test de succès initial
+    test('getExperiences doit charger les données avec succès', () async {
+      rootBundle.evict(experiencePath);
+      mockJsonAsset([
+        {
+          "id": "1",
+          "role": "Dev",
+          "company": "Test",
+          "period": "2025",
+          "description": "Desc",
+          "skillIds": ["windev"],
+        },
+      ]);
+
+      final experiences = await repository.getExperiences();
+      expect(experiences, isNotEmpty);
+      expect(experiences.first.id, "1");
+    });
+
+    // Couverture des blocs CATCH (Lignes 17 à 22 du Repository)
     test(
-      'getExperienceById doit lever NotFoundException si l\'ID n\'existe pas',
+      'getExperiences doit lever DataSourceException si l\'asset est introuvable (FlutterError)',
       () async {
+        rootBundle.evict(experiencePath);
+        mockRawAsset(null); // Force le retour null pour déclencher FlutterError
+
         expect(
-          () => repository.getExperienceById("non_existent_id"),
-          throwsA(isA<NotFoundException>()),
+          () => repository.getExperiences(),
+          throwsA(isA<DataSourceException>()),
         );
       },
     );
 
     test(
-      'getExperiences doit lever DataSourceException si le JSON est malformé',
+      'getExperiences doit lever DataSourceException sur une erreur inattendue (catch total)',
       () async {
-        // 1. On vide le cache pour forcer le bundle à lire notre mock corrompu
-        // Pour vider le cache du canal assets proprement
+        // On force une exception brute pour passer dans le bloc catch(e) final
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .handlePlatformMessage('flutter/assets', null, (ByteData? data) {});
+            .setMockMessageHandler(
+              'flutter/assets',
+              (message) => throw Exception("Unexpected Crash"),
+            );
 
-        // Et pour le handler lui-même, assure-toi d'utiliser :
-        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMessageHandler('flutter/assets', (ByteData? message) async {
-              return null;
-            });
-        // Alternative radicale : vider le cache spécifique
-        rootBundle.evict('assets/data/experiences.json');
-
-        // 2. On redéfinit le handler pour renvoyer de la bouillie
-        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMessageHandler('flutter/assets', (ByteData? message) async {
-              return Uint8List.fromList(
-                utf8.encode("INVALID_JSON"),
-              ).buffer.asByteData();
-            });
-
-        // 3. Act & Assert
         expect(
           () => repository.getExperiences(),
           throwsA(isA<DataSourceException>()),
+        );
+      },
+    );
+
+    // Couverture de getExperienceById et de la ligne 33 (NotFoundException)
+    test(
+      'getExperienceById doit retourner l\'expérience si l\'ID existe',
+      () async {
+        rootBundle.evict(experiencePath);
+        mockJsonAsset([
+          {
+            "id": "exp1",
+            "role": "Dev",
+            "company": "A",
+            "period": "B",
+            "description": "C",
+            "skillIds": [],
+          },
+        ]);
+
+        final result = await repository.getExperienceById("exp1");
+        expect(result.id, "exp1");
+      },
+    );
+
+    test(
+      'getExperienceById doit lever NotFoundException si l\'ID est absent (Ligne 33)',
+      () async {
+        rootBundle.evict(experiencePath);
+        mockJsonAsset([]); // On simule une liste vide pour forcer le NotFound
+
+        expect(
+          () => repository.getExperienceById("unknown_id"),
+          throwsA(isA<NotFoundException>()),
         );
       },
     );

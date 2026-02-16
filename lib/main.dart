@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:portfolio_steve/app.dart';
 import 'package:portfolio_steve/data/repositories/experience.json.dart';
 import 'package:portfolio_steve/data/repositories/profile.json.dart';
@@ -21,6 +22,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   // Indispensable pour l'accès aux assets avant runApp
+  usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   runApp(

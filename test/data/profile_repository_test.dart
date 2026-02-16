@@ -10,7 +10,7 @@ void main() {
   group('JsonProfileRepository Tests', () {
     late JsonProfileRepository repository;
     String? mockContent;
-    const String profilePath = 'assets/data/profile.json';
+    const String profilePath = 'data/profile.json';
 
     // Mock complet correspondant à ton JSON réel
     final defaultProfileData = {
@@ -68,13 +68,23 @@ void main() {
     test(
       'getProfile doit lever DataSourceException si le JSON est corrompu',
       () async {
-        // Reset du cache version non-dépréciée
+        // 1. On vide le cache pour forcer rootBundle à recharger l'asset
         rootBundle.evict(profilePath);
+
+        // 2. On mock le messager pour renvoyer une String qui n'est PAS du JSON
+        final String corruptContent = "Ceci n'est pas du JSON";
+
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .handlePlatformMessage('flutter/assets', null, (data) {});
+            .setMockMessageHandler('flutter/assets', (ByteData? message) async {
+              // On transforme notre string corrompue en bytes
+              final Uint8List bytes = Uint8List.fromList(
+                utf8.encode(corruptContent),
+              );
+              return bytes.buffer.asByteData();
+            });
 
-        mockContent = "INVALID_JSON";
-
+        // 3. On s'attend à ce que le repo catch l'erreur de json.decode
+        // et la transforme en DataSourceException
         expect(
           () => repository.getProfile(),
           throwsA(isA<DataSourceException>()),

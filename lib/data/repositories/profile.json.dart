@@ -8,11 +8,14 @@ import 'package:portfolio_steve/domain/repositories/profile.repository.dart';
 
 class JsonProfileRepository implements IProfileRepository {
   static const String assetPath = 'data/profile.json';
+  final AssetBundle bundle;
+
+  JsonProfileRepository({AssetBundle? bundle}) : bundle = bundle ?? rootBundle;
 
   @override
   Future<Profile> getProfile() async {
     try {
-      final String response = await rootBundle.loadString(assetPath);
+      final String response = await bundle.loadString(assetPath);
       final Map<String, dynamic> data = json.decode(response);
       return Profile.fromJson(data);
     } on FlutterError catch (e) {

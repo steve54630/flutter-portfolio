@@ -9,6 +9,9 @@ import 'package:portfolio_steve/domain/repositories/skill.repository.dart';
 
 class JsonSkillRepository implements ISkillRepository {
   static const String assetPath = 'data/skills.json';
+  final AssetBundle bundle;
+
+  JsonSkillRepository({AssetBundle? bundle}) : bundle = bundle ?? rootBundle;
 
   @override
   Future<Skill> getSkillById(String id) async {
@@ -22,7 +25,7 @@ class JsonSkillRepository implements ISkillRepository {
   @override
   Future<List<Skill>> getSkills() async {
     try {
-      final String response = await rootBundle.loadString(assetPath);
+      final String response = await bundle.loadString(assetPath);
       final List<dynamic> data = json.decode(response);
       return data.map<Skill>((json) => Skill.fromJson(json)).toList();
     } on FlutterError catch (e) {

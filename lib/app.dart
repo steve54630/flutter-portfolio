@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_steve/presentation/pages/home.page.dart';
+import 'package:portfolio_steve/router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Steve Retournay - Portfolio',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -14,11 +14,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.redAccent,
           brightness: Brightness
-              .light, // Un portfolio de dev est souvent mieux en dark mode
+              .dark, // Un portfolio de dev est souvent mieux en dark mode
         ),
         // On pourra extraire ça dans un dossier presentation/theme plus tard
       ),
-      home: const HomePage(),
+      routerConfig: appRouter,
     );
   }
 }
