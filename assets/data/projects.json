@@ -1,0 +1,69 @@
+[
+  {
+    "id": "portfolio",
+    "title": "Portfolio Next.js/React",
+    "description": "Projet vitrine pour présenter mes compétences et réalisations, développé en React et Next.js avec un design interactif, responsive et accessible.",
+    "images": [
+      "images/portfolio/1.png",
+      "images/portfolio/2.png"
+    ],
+    "mainTech": "typescript",
+    "skillIds": ["typescript", "react", "nextjs", "html-css", "github", "vercel", "ui-ux", "application-monolithique"],
+    "strengths": ["performance", "devops", "clean-architecture", "responsive-design", "accessibility", "error-handling"],
+    "link": "https://github.com/steve54630/persona-portfolio",
+    "demo": "https://portfolio-persona-steve54630.vercel.app/"
+  },
+  {
+    "id": "jobflow-ms",
+    "title": "JobFlow - Architecture Microservices",
+    "description": "Refactor d’un back monolithique en microservices (NestJS & Spring Boot + MongoDB) dans un projet d’équipe React. Gestion Agile avec YouTrack, versionning avec GitHub.",
+    "images": [
+      "images/jobflow-ms/1.png",
+      "images/jobflow-ms/2.png"
+    ],
+    "mainTech": "typescript",
+    "skillIds": ["typescript", "react", "nestjs", "cypress", "microservices", "jest", "github", "docker"],
+    "strengths": ["testing", "security", "performance", "devops", "clean-architecture", "responsive-design", "accessibility", "error-handling"],
+    "link": "https://github.com/steve54630/ms-jobflow"
+  },
+  {
+    "id": "p3-angular",
+    "title": "Projet Angular - Application Reactive",
+    "description": "Application démonstrative Angular, réactive avec RxJS, connectée à une API distante, déployée sur Vercel avec un thème personnalisé.",
+    "images": [
+      "images/p3-angular/1.webp",
+      "images/p3-angular/2.webp"
+    ],
+    "mainTech": "typescript",
+    "skillIds": ["angular", "typescript", "rxjs", "api-rest", "html-css", "github", "vercel", "event-driven"],
+    "strengths": ["performance", "devops", "clean-architecture", "responsive-design"],
+    "link": "https://github.com/steve54630/p3-angular",
+    "demo": "https://p3-angular.vercel.app"
+  },
+  {
+    "id": "javafx-pharmacie",
+    "title": "Application JavaFX - Gestion de Pharmacie",
+    "description": "Application monolithique de gestion de pharmacie, développée avec JavaFX, utilisant MySQL et testée avec JUnit.",
+    "images": [
+      "images/javafx-pharmacie/1.png",
+      "images/javafx-pharmacie/2.png"
+    ],
+    "mainTech": "java",
+    "skillIds": ["java", "javafx", "dao-mvc", "mysql", "junit", "gitlab", "application-monolithique", "clean-architecture"],
+    "strengths": ["testing", "security", "clean-architecture", "error-handling"],
+    "link": "https://gitlab.com/steve5488/ecf-java-fx"
+  },
+  {
+    "id": "kotlin-femsante",
+    "title": "Application Kotlin Android - Sante Feminine",
+    "description": "Application mobile Android pour accompagner les femmes dans leur santé quotidienne, intégrant des ressources multimédias sécurisées et une API backend Laravel.",
+    "images": [
+      "images/femsante/1.jpg",
+      "images/femsante/2.jpg"
+    ],
+    "mainTech": "kotlin",
+    "skillIds": ["kotlin", "android-sdk", "laravel", "php", "api-rest", "mysql", "github", "ux-mobile"],
+    "strengths": ["security", "performance", "devops", "clean-architecture", "responsive-design", "accessibility", "error-handling"],
+    "link": "https://github.com/steve54630/FemSante"
+  }
+]
