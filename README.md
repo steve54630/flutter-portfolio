@@ -14,6 +14,7 @@ Un portfolio moderne et robuste développé avec **Flutter**, mettant en avant m
 
 Le projet suit les principes de la **Clean Architecture** pour garantir la testabilité et la maintenance :
 
+```text
 lib/
 ├── data/
 │   └── repositories/      # Implémentations des dépôts (Logique JSON)
@@ -28,6 +29,7 @@ lib/
 │   ├── providers/         # Gestion d'état (Provider)
 │    └── widgets/          # Composants UI réutilisables
 └── shared/                # Code partagé au niveau domaine
+```
 
 ## 🛠️ Stack Technique
 
