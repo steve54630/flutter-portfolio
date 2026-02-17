@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:portfolio_steve/domain/shared/urllauncher.dart';
+import 'package:portfolio_steve/shared/urllauncher.dart';
 import 'package:portfolio_steve/presentation/providers/profile.provider.dart';
 import 'package:portfolio_steve/presentation/widgets/Inforow.widget.dart';
 import 'package:portfolio_steve/presentation/widgets/error.widget.dart';

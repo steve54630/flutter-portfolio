@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_steve/domain/entities/project.entity.dart';
 import 'package:portfolio_steve/domain/models/project.model.dart';
-import 'package:portfolio_steve/domain/shared/urllauncher.dart';
+import 'package:portfolio_steve/shared/urllauncher.dart';
 import 'package:portfolio_steve/presentation/widgets/carousel.widget.dart';
 
 class ProjectDetailDialog extends StatelessWidget {
