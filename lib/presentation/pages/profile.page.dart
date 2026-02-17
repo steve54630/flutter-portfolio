@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:portfolio_steve/domain/shared/urllauncher.dart';
 import 'package:portfolio_steve/presentation/providers/profile.provider.dart';
 import 'package:portfolio_steve/presentation/widgets/Inforow.widget.dart';
 import 'package:portfolio_steve/presentation/widgets/error.widget.dart';
@@ -64,8 +65,20 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const Divider(height: 40),
                   InfoRow(icon: Icons.location_on, text: profile.location),
-                  InfoRow(icon: Icons.email, text: profile.contact.email),
-                  InfoRow(icon: Icons.link, text: profile.contact.linkedin),
+                  InkWell(
+                    onTap: () => LauncherUtils.openUrl(
+                      'mailto:${profile.contact.email}',
+                    ),
+                    child: InfoRow(
+                      icon: Icons.email,
+                      text: profile.contact.email,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () =>
+                        LauncherUtils.openUrl(profile.contact.linkedin),
+                    child: InfoRow(icon: Icons.link, text: "LinkedIn Profile"),
+                  ),
                 ],
               ),
             ),

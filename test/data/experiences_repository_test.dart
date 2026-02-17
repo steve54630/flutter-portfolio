@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio_steve/data/repositories/experience.json.dart';
@@ -21,8 +20,10 @@ void main() {
     void mockRawAsset(String? content) {
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMessageHandler('flutter/assets', (ByteData? message) async {
-            if (content == null)
-              return null; // Simule un asset inexistant ou inaccessible
+            if (content == null) {
+              return null;
+            }
+            // Simule un asset inexistant ou inaccessible
             return Uint8List.fromList(utf8.encode(content)).buffer.asByteData();
           });
     }

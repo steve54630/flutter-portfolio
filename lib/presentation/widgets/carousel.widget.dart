@@ -25,8 +25,7 @@ class _CarouselState extends State<Carousel> {
           itemBuilder: (context, index) => Image.asset(
             widget.images[index],
             fit: BoxFit.contain,
-            errorBuilder: (context, _, __) =>
-                Container(color: Colors.grey[900]),
+            errorBuilder: (context, _, _) => Container(color: Colors.grey[900]),
           ),
         ),
 

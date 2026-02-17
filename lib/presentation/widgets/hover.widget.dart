@@ -14,7 +14,8 @@ class _HoverCardState extends State<HoverCard> {
   @override
   Widget build(BuildContext context) {
     // Calcul de la transformation (on monte de 8 pixels)
-    final hoveredTransform = Matrix4.identity()..translate(0, -8, 0);
+    final hoveredTransform = Matrix4.identity()
+      ..translateByDouble(0.0, -8.0, 0.0, 0.0);
 
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
@@ -28,7 +29,7 @@ class _HoverCardState extends State<HoverCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16),
           elevation: isHovered ? 12 : 4, // L'ombre s'accentue au survol
-          shadowColor: Colors.black.withOpacity(0.2),
+          shadowColor: Colors.black.withValues(alpha: .2),
           child: widget.child,
         ),
       ),

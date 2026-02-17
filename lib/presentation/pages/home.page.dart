@@ -17,11 +17,11 @@ class HomePage extends StatelessWidget {
             // 1. Page de profil (Header/Bio)
             ProfilePage(),
 
-            // 2. Page de projets
-            ProjectPage(),
-
-            // 3. Page d'expériences
+            // 2. Page d'expériences
             ExperiencePage(),
+
+            // 3. Page de projets
+            ProjectPage(),
 
             // Un petit espace en bas de page
             const SizedBox(height: 50),
