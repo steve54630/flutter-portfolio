@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:portfolio_steve/presentation/widgets/carousel/carousel_arrow.widget.dart';
+import 'package:portfolio_steve/presentation/widgets/carousel/carousel_dots.widget.dart';
 
 class Carousel extends StatefulWidget {
   final List<String> images;
@@ -10,90 +13,87 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
-  final PageController _controller = PageController();
+  late final PageController _controller;
   int _currentPage = 0;
 
   @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _animateTo({required bool isNext}) {
+    final targetPage = isNext ? _currentPage + 1 : _currentPage - 1;
+    if (targetPage >= 0 && targetPage < widget.images.length) {
+      _controller.animateToPage(
+        targetPage,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOutCubic,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Stack(
+    if (widget.images.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        // Le slider d'images
-        PageView.builder(
-          controller: _controller,
-          onPageChanged: (index) => setState(() => _currentPage = index),
-          itemCount: widget.images.length,
-          itemBuilder: (context, index) => Image.asset(
-            widget.images[index],
-            fit: BoxFit.contain,
-            errorBuilder: (context, _, _) => Container(color: Colors.grey[900]),
-          ),
-        ),
-
-        // Navigation (Flèches) - Apparaît si > 1 image
-        if (widget.images.length > 1) ...[
-          _buildNavButton(
-            icon: Icons.arrow_back_ios_new,
-            left: 8,
-            onPressed: () => _controller.previousPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+        Expanded(child: _buildImageSlider()),
+        if (widget.images.length > 1)
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: CarouselIndicators(
+              count: widget.images.length,
+              currentIndex: _currentPage,
             ),
           ),
-          _buildNavButton(
-            icon: Icons.arrow_forward_ios,
-            right: 8,
-            onPressed: () => _controller.nextPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            ),
-          ),
-
-          // Indicateur de points (Dots)
-          Positioned(
-            bottom: 12,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                widget.images.length,
-                (index) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  height: 8,
-                  width: _currentPage == index ? 24 : 8,
-                  decoration: BoxDecoration(
-                    color: _currentPage == index
-                        ? Colors.white
-                        : Colors.white54,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ],
     );
   }
 
-  Widget _buildNavButton({
-    required IconData icon,
-    double? left,
-    double? right,
-    required VoidCallback onPressed,
-  }) {
-    return Positioned(
-      top: 0,
-      bottom: 0,
-      left: left,
-      right: right,
-      child: Center(
-        child: IconButton.filled(
-          onPressed: onPressed,
-          icon: Icon(icon, size: 18),
-          style: IconButton.styleFrom(backgroundColor: Colors.black38),
-        ),
+  Widget _buildImageSlider() {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.trackpad,
+        },
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          PageView.builder(
+            controller: _controller,
+            physics: const AlwaysScrollableScrollPhysics(),
+            onPageChanged: (index) => setState(() => _currentPage = index),
+            itemCount: widget.images.length,
+            itemBuilder: (context, index) => ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(widget.images[index], fit: BoxFit.contain),
+            ),
+          ),
+          if (widget.images.length > 1) ...[
+            CarouselNavButton(
+              icon: Icons.arrow_back_ios_new,
+              left: 12,
+              onPressed: () => _animateTo(isNext: false),
+            ),
+            CarouselNavButton(
+              icon: Icons.arrow_forward_ios,
+              right: 12,
+              onPressed: () => _animateTo(isNext: true),
+            ),
+          ],
+        ],
       ),
     );
   }

@@ -27,7 +27,7 @@ class _HoverCardState extends State<HoverCard> {
         curve: Curves.easeOut,
         transform: isHovered ? hoveredTransform : Matrix4.identity(),
         child: PhysicalModel(
-          color: Colors.transparent,
+          color: Colors.blueGrey,
           borderRadius: BorderRadius.circular(16),
           elevation: isHovered ? 12 : 4, // L'ombre s'accentue au survol
           shadowColor: Colors.black.withValues(alpha: .2),

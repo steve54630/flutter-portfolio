@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       // On utilise Consumer pour reconstruire uniquement cette partie quand le profil change
       body: SingleChildScrollView(
         child: Column(

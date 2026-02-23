@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InfoRow extends StatelessWidget {
   final IconData icon;
@@ -17,7 +18,10 @@ class InfoRow extends StatelessWidget {
           const SizedBox(width: 12),
           // Flexible permet d'éviter l'overflow si le texte est trop long sur mobile
           Flexible(
-            child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
+            child: Text(
+              text,
+              style: GoogleFonts.abrilFatface(color: Colors.blueGrey),
+            ),
           ),
         ],
       ),

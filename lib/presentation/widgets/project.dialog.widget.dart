@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_steve/domain/entities/project.entity.dart';
 import 'package:portfolio_steve/domain/models/project.model.dart';
-import 'package:portfolio_steve/shared/urllauncher.dart';
 import 'package:portfolio_steve/presentation/widgets/carousel.widget.dart';
+import 'package:portfolio_steve/shared/urllauncher.dart';
 
 class ProjectDetailDialog extends StatelessWidget {
   final ProjectDetails details;
@@ -15,7 +15,12 @@ class ProjectDetailDialog extends StatelessWidget {
     final project = details.project;
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      // 1. Fond correspondant à ton thème de surface
+      backgroundColor: const Color(0xFF161616),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+        side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+      ),
       clipBehavior: Clip.antiAlias,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 800),
@@ -24,10 +29,8 @@ class ProjectDetailDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // --- HEADER IMAGE ---
               _buildHeader(context, project),
 
-              // --- CONTENT ---
               Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
@@ -36,23 +39,25 @@ class ProjectDetailDialog extends StatelessWidget {
                     Text(
                       project.title,
                       style: GoogleFonts.aleo(
-                        textStyle: Theme.of(context).textTheme.displaySmall,
+                        fontSize: 32,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 16),
 
                     Text(
                       project.description,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyLarge?.copyWith(height: 1.6),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        height: 1.6,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
                     ),
 
                     const SizedBox(height: 32),
                     _buildTechSection(context),
 
-                    const Divider(height: 60),
+                    const Divider(height: 60, color: Colors.white10),
                     _buildActions(context, project),
                   ],
                 ),
@@ -69,13 +74,35 @@ class ProjectDetailDialog extends StatelessWidget {
       aspectRatio: 16 / 9,
       child: Stack(
         children: [
+          // 1. Le Carousel (fond de la pile)
           Carousel(images: project.images),
+
+          // 2. Le Gradient (ON MET POSITIONED EN PREMIER)
+          Positioned.fill(
+            child: IgnorePointer(
+              // 👈 IgnorePointer est maintenant à l'intérieur
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.4),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // 3. Le bouton fermer
           Positioned(
             top: 16,
             right: 16,
             child: IconButton.filled(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.close),
+              icon: const Icon(Icons.close, color: Colors.white),
               style: IconButton.styleFrom(backgroundColor: Colors.black54),
             ),
           ),
@@ -89,22 +116,30 @@ class ProjectDetailDialog extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Stack Technique",
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          "STACK TECHNIQUE",
+          style: GoogleFonts.jetBrainsMono(
+            fontSize: 12,
+            letterSpacing: 1.2,
+            fontWeight: FontWeight.bold,
+            color: Colors.redAccent, // Rappel de ta couleur seed
+          ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         Wrap(
           spacing: 10,
           runSpacing: 10,
           children: details.skills
               .map(
                 (skill) => Chip(
-                  label: Text(skill.name),
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer.withValues(alpha: 0.3),
+                  label: Text(
+                    skill.name,
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                  ),
+                  backgroundColor: Colors.white.withValues(alpha: 0.05),
+                  side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               )
               .toList(),
@@ -117,23 +152,30 @@ class ProjectDetailDialog extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        OutlinedButton.icon(
-          onPressed: () {
-            LauncherUtils.openUrl(project.link);
-          },
-          icon: const Icon(Icons.code),
-          label: const Text("Code Source"),
+        TextButton.icon(
+          onPressed: () => LauncherUtils.openUrl(project.link),
+          icon: const Icon(Icons.code, size: 20),
+          label: const Text("GITHUB"),
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.white70,
+            textStyle: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold),
+          ),
         ),
         const SizedBox(width: 16),
         if (project.demo != null)
           ElevatedButton.icon(
-            onPressed: () {
-              project.demo != null
-                  ? LauncherUtils.openUrl(project.demo!)
-                  : null;
-            },
-            icon: const Icon(Icons.launch),
-            label: const Text("Voir le projet"),
+            onPressed: () => LauncherUtils.openUrl(project.demo!),
+            icon: const Icon(Icons.launch, size: 20),
+            label: const Text("VOIR LE PROJET"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              textStyle: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
           ),
       ],
     );

@@ -12,48 +12,89 @@ class ExperienceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: [
-          Text(experience.role, style: Theme.of(context).textTheme.titleLarge),
-          Text(
-            experience.company,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          Text(
-            "Période : ${experience.period}",
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-          SizedBox(height: 16),
-          Text(
-            experience.description,
-            style: GoogleFonts.aleo(
-              textStyle: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: experienceDetails.skills.map((skill) {
-              return Chip(
-                label: Text(
-                  skill.name,
-                  style: GoogleFonts.jetBrainsMono(fontSize: 11),
+    return SizedBox(
+      width: double.infinity, // Prend toute la largeur disponible
+      child: Card(
+        margin: const EdgeInsets.only(bottom: 20), // Espace entre les cartes
+        color: const Color(
+          0xFF1A1A1A,
+        ), // Fond sombre légèrement différent du fond de page
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(
+            color: Colors.white.withValues(alpha: 0.1),
+          ), // Bordure subtile
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0), // Padding interne crucial
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Aligne tout à gauche
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      experience.role,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white, // Texte clair
+                      ),
+                    ),
+                  ),
+                  Text(
+                    experience.period,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.redAccent, // Rappel de ton seedColor
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                experience.company,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color:
+                      Colors.blueAccent, // Couleur distincte pour l'entreprise
                 ),
-                backgroundColor: Theme.of(
-                  context,
-                ).colorScheme.primaryContainer.withValues(alpha: 0.2),
-                side: BorderSide(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.1),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                experience.description,
+                style: GoogleFonts.aleo(
+                  textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.white70, // Gris clair pour la description
+                    height: 1.5,
+                  ),
                 ),
-              );
-            }).toList(),
+              ),
+              const SizedBox(height: 20),
+              // Tags / Skills
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: experienceDetails.skills.map((skill) {
+                  return Chip(
+                    label: Text(
+                      skill.name,
+                      style: GoogleFonts.jetBrainsMono(
+                        fontSize: 10,
+                        color: Colors.white,
+                      ),
+                    ),
+                    backgroundColor: Colors.redAccent.withValues(alpha: 0.1),
+                    padding: EdgeInsets.zero,
+                    visualDensity: VisualDensity.compact,
+                    side: BorderSide(
+                      color: Colors.redAccent.withValues(alpha: 0.3),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

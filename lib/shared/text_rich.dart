@@ -16,10 +16,7 @@ TextSpan parseMarkdown(String text, BuildContext context) {
     spans.add(
       TextSpan(
         text: match.group(1),
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
     lastIndex = match.end;

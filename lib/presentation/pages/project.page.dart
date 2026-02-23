@@ -22,6 +22,7 @@ class ProjectPage extends StatelessWidget {
             style: GoogleFonts.aleo(
               textStyle: Theme.of(context).textTheme.headlineMedium,
               fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
             ),
           ),
         ),

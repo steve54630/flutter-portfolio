@@ -50,6 +50,7 @@ class ProfilePage extends StatelessWidget {
                     "Bonjour, je suis",
                     style: GoogleFonts.poppins(
                       textStyle: Theme.of(context).textTheme.headlineMedium,
+                      color: Colors.white70,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -67,7 +68,10 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text.rich(
                     parseMarkdown(profile.bioContent, context),
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      height: 1.5,
+                      color: Colors.white70,
+                    ),
                   ),
                   const Divider(height: 40),
                   InfoRow(icon: Icons.location_on, text: profile.location),
@@ -97,6 +101,7 @@ class ProfilePage extends StatelessWidget {
                 style: GoogleFonts.aleo(
                   textStyle: Theme.of(context).textTheme.headlineMedium,
                   fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
                 ),
               ),
             ),
