@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 class HoverCard extends StatefulWidget {
   final Widget child;
@@ -15,7 +16,7 @@ class _HoverCardState extends State<HoverCard> {
   Widget build(BuildContext context) {
     // Calcul de la transformation (on monte de 8 pixels)
     final hoveredTransform = Matrix4.identity()
-      ..translateByDouble(0.0, -8.0, 0.0, 0.0);
+      ..translateByVector3(Vector3(0.0, -8.0, 0.0));
 
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),

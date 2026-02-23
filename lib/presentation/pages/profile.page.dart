@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:portfolio_steve/shared/text_rich.dart';
 import 'package:portfolio_steve/shared/urllauncher.dart';
 import 'package:portfolio_steve/presentation/providers/profile.provider.dart';
 import 'package:portfolio_steve/presentation/widgets/Inforow.widget.dart';
@@ -43,24 +44,29 @@ class ProfilePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     "Bonjour, je suis",
                     style: GoogleFonts.poppins(
                       textStyle: Theme.of(context).textTheme.headlineMedium,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   Text(
                     profile.name,
-                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.pacifico(
+                      textStyle: Theme.of(context).textTheme.displayMedium
+                          ?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    profile.bioContent,
+                  Text.rich(
+                    parseMarkdown(profile.bioContent, context),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const Divider(height: 40),
